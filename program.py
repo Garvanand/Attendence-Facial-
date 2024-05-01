@@ -9,6 +9,12 @@ from tkinter import ttk, messagebox
 def mark_attendance(name):
     now = datetime.now()
     current_date = now.strftime("%Y-%m-%d")
+    csv_filename = f"{current_date}.csv"
+
+    if not os.path.exists(csv_filename):
+        with open(csv_filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['Name', 'Date'])
 
     with open(csv_filename, 'r', newline='') as csvfile:
         csv_reader = csv.reader(csvfile)
@@ -20,6 +26,7 @@ def mark_attendance(name):
     with open(csv_filename, 'a', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerow([name, current_date])
+
     messagebox.showinfo("Attendance Marked", f"{name} marked as present on {current_date}!")
 
 def display_attendance():
@@ -78,7 +85,6 @@ known_faces_names = []
 
 known_faces = {
     "garv": "photos/garv.jpg",
-    "kritika": "photos/kritika.jpg",
     "surbhi": "photos/surbhi.jpg",
     "payal": "photos/payal.jpg"
 }
